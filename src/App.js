@@ -1,8 +1,10 @@
 import './App.css';
 import firebase from "./firebase.js";
-import { push, getDatabase, ref, onValue } from 'firebase/database';
+import { push, getDatabase, ref, onValue, remove } from 'firebase/database';
 import { useState, useEffect } from 'react';
 import GoalForm from './GoalForm.js';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons'
 // 1. Allow users to save goals + goal length onto page
 // 2. Allow users to remove goals once complete
 function App() {
@@ -50,6 +52,13 @@ function App() {
     setUserLength();
   }
 
+  const handleRemoveGoal = (goalId) => {
+    console.log("click", goalId)
+    const database = getDatabase(firebase);
+    const dbRef = ref(database, `/${goalId}`);
+    remove(dbRef);
+  }
+
   return (
     <div className="App">
       <div className="wrapper">
@@ -61,7 +70,7 @@ function App() {
         />
 
         <div className="goals">
-          <ul>
+          <ul className="goalList">
             {goals.map((goal) => {
               let checkbox = [];
               for (let i = 0; i < goal.length; i++) {
@@ -69,8 +78,9 @@ function App() {
               }
 
               return (
-                <li id={goals[goal]}>
+                <li key={goal.key}>
                   <h2>{goal.name}</h2>
+                  <button onClick={() => {handleRemoveGoal(goal.key)}}><FontAwesomeIcon icon={faXmark} /></button>
                   <p>{goal.length} days</p>
                   {checkbox}
                 </li>

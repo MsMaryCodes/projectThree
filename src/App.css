@@ -62,3 +62,9 @@ form {
   width: 60vw;
   margin: 30px auto;
 }
+
+.goalList button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
