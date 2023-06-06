@@ -53,6 +53,7 @@ function App() {
   return (
     <div className="App">
       <div className="wrapper">
+        <h1>Habit Tracker</h1>
         <GoalForm 
           handleNameChange={handleNameChange}
           handleNumChange={handleNumChange}
@@ -62,9 +63,16 @@ function App() {
         <div className="goals">
           <ul>
             {goals.map((goal) => {
+              let checkbox = [];
+              for (let i = 0; i < goal.length; i++) {
+                checkbox.push(<input type="checkbox" key={i} />)
+              }
+
               return (
                 <li id={goals[goal]}>
-                  <p>{goal.name}</p>
+                  <h2>{goal.name}</h2>
+                  <p>{goal.length} days</p>
+                  {checkbox}
                 </li>
               )
             })}
